@@ -1,8 +1,12 @@
 #include <dirent.h>
 #include <stdio.h>
+# include "ft_ls.h"
 
-static
-int filecount(char *path)
+// -l, -R, -a, -r and -t.
+// bonus -u,  -1 (вертикальный вывод), -m, -s, -S
+// bonus time like ls from standart lib
+
+static int filecount(char *path)
 {
     int file_Count = 0;
     DIR *dirp;
@@ -10,7 +14,7 @@ int filecount(char *path)
     dirp = opendir(path);
     while ((entry = readdir(dirp)) != NULL)
     {
-        printf("Found (%llu)(%d): %s\n", entry->d_ino, entry->d_type, entry->d_name);
+        ft_printf("Found (%llu)(%d): %s\n", entry->d_ino, entry->d_type, entry->d_name);
         if (entry->d_type == DT_REG)
         {
             ++file_Count;
@@ -22,15 +26,18 @@ int filecount(char *path)
 
 static void proc_dir(char *dir)
 {
-    printf("Processing %s:\n", dir);
-    printf("File count = %d\n", filecount(dir));
+    ft_printf("Processing %s:\n", dir);
+    ft_printf("File count = %d\n", filecount(dir));
 }
 
 int main(int argc, char **argv)
 {
+    int i;
+    i = 0;
+
     if (argc > 1)
     {
-        for (int i = 1; i < argc; i++)
+        for (i = 1; i < argc; i++)
             proc_dir(argv[i]);
     }
     else
